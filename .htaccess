@@ -1,0 +1,24 @@
+RewriteEngine On
+RewriteBase /ShopSystemCrazy/
+
+# 1) Servir assets que están dentro de /public SIN mostrar /public
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{DOCUMENT_ROOT}/ShopSystemCrazy/public/$1 -f [OR]
+RewriteCond %{DOCUMENT_ROOT}/ShopSystemCrazy/public/$1 -d
+RewriteRule ^(.+)$ public/$1 [L]
+
+# 2) Raíz del sitio -> front controller (para ?debugbar y /)
+RewriteRule ^$ public/index.php [L]
+
+# 3) Cualquier otra ruta PHP -> front controller
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.+)$ public/index.php/$1 [L,QSA]
+
+# 4) Mantener header Authorization para JWT
+RewriteCond %{HTTP:Authorization} .
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+# (opcional) Evitar listado de directorios
+Options -Indexes

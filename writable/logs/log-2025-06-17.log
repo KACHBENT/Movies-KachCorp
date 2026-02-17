@@ -1,0 +1,202 @@
+CRITICAL - 2025-06-17 15:05:51 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "registro_ventas.php"
+[Method: GET, Route: RegistroVentas]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(212): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('registro_ventas.php')
+ 2 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('registro_ventas', [], true)
+ 3 APPPATH\Controllers\GestionVentas.php(8): view('registro_ventas')
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\GestionVentas->registroventas()
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\GestionVentas))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-06-17 15:06:50 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "registro_ventas.php"
+[Method: GET, Route: RegistroVentas]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(212): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('registro_ventas.php')
+ 2 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('registro_ventas', [], true)
+ 3 APPPATH\Controllers\GestionVentas.php(8): view('registro_ventas')
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\GestionVentas->registroventas()
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\GestionVentas))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-06-17 15:08:10 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "registro_ventas.php"
+[Method: GET, Route: RegistroVentas]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(212): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('registro_ventas.php')
+ 2 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('registro_ventas', [], true)
+ 3 APPPATH\Controllers\GestionVentas.php(9): view('registro_ventas')
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\GestionVentas->registroventas()
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\GestionVentas))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-06-17 15:10:07 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "registro_ventas.php"
+[Method: GET, Route: RegistroVentas]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(212): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('registro_ventas.php')
+ 2 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('registro_ventas', [], true)
+ 3 APPPATH\Controllers\GestionVentas.php(7): view('registro_ventas')
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\GestionVentas->registroventas()
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\GestionVentas))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-06-17 15:19:26 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "registro_ventas.php"
+[Method: GET, Route: RegistroVentas]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(212): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('registro_ventas.php')
+ 2 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('registro_ventas', [], true)
+ 3 APPPATH\Controllers\GestionVentas.php(7): view('registro_ventas')
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\GestionVentas->registroventas()
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\GestionVentas))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-06-17 15:19:27 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "registro_ventas.php"
+[Method: GET, Route: RegistroVentas]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(212): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('registro_ventas.php')
+ 2 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('registro_ventas', [], true)
+ 3 APPPATH\Controllers\GestionVentas.php(7): view('registro_ventas')
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\GestionVentas->registroventas()
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\GestionVentas))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-06-17 15:20:00 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "/GestionCompra/registro_ventas.php"
+[Method: GET, Route: RegistroVentas]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(212): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('/GestionCompra/registro_ventas.php')
+ 2 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('/GestionCompra/registro_ventas', [], true)
+ 3 APPPATH\Controllers\GestionVentas.php(7): view('/GestionCompra/registro_ventas')
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\GestionVentas->registroventas()
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\GestionVentas))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-06-17 15:20:01 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "/GestionCompra/registro_ventas.php"
+[Method: GET, Route: RegistroVentas]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(212): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('/GestionCompra/registro_ventas.php')
+ 2 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('/GestionCompra/registro_ventas', [], true)
+ 3 APPPATH\Controllers\GestionVentas.php(7): view('/GestionCompra/registro_ventas')
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\GestionVentas->registroventas()
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\GestionVentas))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-06-17 15:22:18 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "GestionVentas/registro_ventas.php"
+[Method: GET, Route: RegistroVentas]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(212): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('GestionVentas/registro_ventas.php')
+ 2 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('GestionVentas/registro_ventas', [], true)
+ 3 APPPATH\Controllers\GestionVentas.php(7): view('GestionVentas/registro_ventas')
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\GestionVentas->registroventas()
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\GestionVentas))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-06-17 15:22:19 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "GestionVentas/registro_ventas.php"
+[Method: GET, Route: RegistroVentas]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(212): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('GestionVentas/registro_ventas.php')
+ 2 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('GestionVentas/registro_ventas', [], true)
+ 3 APPPATH\Controllers\GestionVentas.php(7): view('GestionVentas/registro_ventas')
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\GestionVentas->registroventas()
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\GestionVentas))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-06-17 15:23:08 --> ErrorException: Undefined property: App\Controllers\GestionVentas::$load
+[Method: GET, Route: RegistroVentas]
+in APPPATH\Controllers\GestionVentas.php on line 7.
+ 1 APPPATH\Controllers\GestionVentas.php(7): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: App\\Controllers\\GestionVentas::$load', 'C:\\xampp\\htdocs\\VentasGarcia\\app\\Controllers\\GestionVentas.php', 7)
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\GestionVentas->registroventas()
+ 3 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\GestionVentas))
+ 4 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-06-17 15:25:47 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "GestionVentas/registro_ventas.php"
+[Method: GET, Route: RegistroVentas]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(212): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('GestionVentas/registro_ventas.php')
+ 2 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('GestionVentas/registro_ventas', [], true)
+ 3 APPPATH\Controllers\GestionVentas.php(7): view('GestionVentas/registro_ventas')
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\GestionVentas->registroventas()
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\GestionVentas))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-06-17 15:26:44 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "GestionVentas/registro_ventas.php"
+[Method: GET, Route: RegistroVentas]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(212): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('GestionVentas/registro_ventas.php')
+ 2 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('GestionVentas/registro_ventas', [], true)
+ 3 APPPATH\Controllers\GestionVentas.php(7): view('GestionVentas/registro_ventas')
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\GestionVentas->registroventas()
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\GestionVentas))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-06-17 15:26:45 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "GestionVentas/registro_ventas.php"
+[Method: GET, Route: RegistroVentas]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(212): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('GestionVentas/registro_ventas.php')
+ 2 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('GestionVentas/registro_ventas', [], true)
+ 3 APPPATH\Controllers\GestionVentas.php(7): view('GestionVentas/registro_ventas')
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\GestionVentas->registroventas()
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\GestionVentas))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-06-17 15:30:32 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "GestionVentas/registro_ventas.php"
+[Method: GET, Route: RegistroVentas]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(212): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('GestionVentas/registro_ventas.php')
+ 2 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('GestionVentas/registro_ventas', [], true)
+ 3 APPPATH\Controllers\GestionVentas.php(7): view('GestionVentas/registro_ventas')
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\GestionVentas->registroventas()
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\GestionVentas))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-06-17 15:32:06 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "GestionVentas/registroventas.php"
+[Method: GET, Route: RegistroVentas]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(212): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('GestionVentas/registroventas.php')
+ 2 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('GestionVentas/registroventas', [], true)
+ 3 APPPATH\Controllers\GestionVentas.php(7): view('GestionVentas/registroventas')
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\GestionVentas->registroventas()
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\GestionVentas))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-06-17 15:32:49 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "welcome_menssage.php"
+[Method: GET, Route: RegistroVentas]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(212): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('welcome_menssage.php')
+ 2 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('welcome_menssage', [], true)
+ 3 APPPATH\Controllers\GestionVentas.php(7): view('welcome_menssage')
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\GestionVentas->registroventas()
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\GestionVentas))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))

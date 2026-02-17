@@ -1,0 +1,179 @@
+:root {
+  --sidebar-w: 260px;
+
+  /* 🎨 PALETA SHOPSYSTEMCRAZY */
+  --tech-blue: #1ea7d7;
+  --tech-blue-light: #00e0ff;
+  --tech-purple: #5e3bbf;
+  --tech-purple-light: #d946ef;
+
+  --dark-bg: #0f1021;
+  --dark-card: #1a1b38;
+  --text-light: #f1f3ff;
+  --text-muted: rgba(255,255,255,.65);
+
+  --radius: 16px;
+}
+
+/* ========================= BASE ========================= */
+
+html, body {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  background: radial-gradient(circle at top left, #1ea7d720, transparent 60%),
+              radial-gradient(circle at bottom right, #5e3bbf30, #0f1021 80%);
+  background-attachment: fixed;
+  color: var(--text-light);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+main {
+  flex: 1 0 auto;
+}
+
+/* ========================= NAVBAR ========================= */
+
+.navbar-tech {
+  background: linear-gradient(90deg, var(--tech-blue), var(--tech-purple)) !important;
+  box-shadow: 0 4px 20px rgba(0,0,0,.35);
+}
+
+.brand-tech {
+  font-size: 1.3rem;
+  font-weight: 800;
+  background: linear-gradient(90deg, var(--tech-blue-light), var(--tech-purple-light));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ========================= SIDEBAR ========================= */
+
+.sidebar-tech {
+  background: linear-gradient(160deg, #15163a, #241a5a);
+}
+
+.sidebar-tech .nav-link {
+  border-radius: 10px;
+  padding: .6rem .8rem;
+  transition: all .2s ease;
+}
+
+.sidebar-tech .nav-link:hover {
+  background: rgba(255,255,255,.08);
+  transform: translateX(4px);
+}
+
+/* ========================= CARDS ========================= */
+
+.card {
+  background: var(--dark-card);
+  border: 1px solid rgba(255,255,255,.05);
+  border-radius: var(--radius) !important;
+  box-shadow: 0 10px 25px rgba(0,0,0,.25);
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(0,0,0,.35);
+}
+
+.card-header {
+  background: linear-gradient(90deg, var(--tech-blue), var(--tech-purple));
+  border: none;
+  font-weight: 600;
+}
+
+/* ========================= BOTONES ========================= */
+
+.btn-primary {
+  background: linear-gradient(90deg, var(--tech-blue), var(--tech-purple));
+  border: none;
+  border-radius: 999px;
+  font-weight: 600;
+  padding: .5rem 1.2rem;
+  transition: all .2s ease;
+}
+
+.btn-primary:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(94,59,191,.4);
+}
+
+.btn-outline-light {
+  border-radius: 999px;
+}
+
+/* ========================= INPUTS ========================= */
+
+.form-control,
+.form-select {
+  background: #181936;
+  border: 1px solid rgba(255,255,255,.08);
+  color: white;
+  border-radius: 12px;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--tech-blue);
+  box-shadow: 0 0 0 .2rem rgba(30,167,215,.25);
+  background: #1c1d3f;
+  color: white;
+}
+
+/* ========================= LINKS ========================= */
+
+a {
+  color: var(--tech-blue-light);
+  text-decoration: none;
+}
+
+a:hover {
+  color: white;
+}
+
+/* ========================= UTILIDADES ========================= */
+
+.text-muted {
+  color: var(--text-muted) !important;
+}
+
+.rounded {
+  border-radius: var(--radius) !important;
+}
+
+/* ========================= PRODUCT CARDS (eCommerce) ========================= */
+
+.product-card {
+  background: var(--dark-card);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: all .2s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 35px rgba(0,0,0,.4);
+}
+
+.product-img {
+  height: 200px;
+  object-fit: contain;
+  background: #0f1021;
+  padding: 20px;
+}
+
+.product-price {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--tech-blue-light);
+}
+
+.product-old-price {
+  text-decoration: line-through;
+  color: var(--text-muted);
+  font-size: .9rem;
+}

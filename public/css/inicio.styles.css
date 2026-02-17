@@ -1,0 +1,48 @@
+.pg-hero {
+  border-radius: 20px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #1ea7d7, #5e3bbf);
+  box-shadow: 0 20px 40px rgba(0,0,0,.4);
+  position: relative;
+}
+
+.pg-hero-caption {
+  padding: 4rem;
+}
+
+.pg-hero-title {
+  font-size: clamp(1.8rem, 3vw, 3rem);
+  font-weight: 800;
+}
+
+.pg-hero-desc {
+  opacity: .9;
+  max-width: 50ch;
+}
+
+.pg-section-title {
+  font-weight: 800;
+  background: linear-gradient(90deg, #00e0ff, #d946ef);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* GRID PRODUCTOS */
+
+.pg-reco-row {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.pg-reco-card {
+  background: #1a1b38;
+  border-radius: 16px;
+  padding: 1rem;
+  transition: all .2s ease;
+}
+
+.pg-reco-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0,0,0,.4);
+}

@@ -1,0 +1,23 @@
+body {
+  background: radial-gradient(circle at top right, #1ea7d730, transparent 60%),
+              radial-gradient(circle at bottom left, #5e3bbf40, #0f1021 80%);
+  background-attachment: fixed;
+  color: #ffffff;
+}
+
+.card {
+  background: #1a1b38;
+  border-radius: 16px !important;
+  box-shadow: 0 10px 30px rgba(0,0,0,.3);
+}
+
+.bg-header-custom {
+  background: linear-gradient(90deg, #1ea7d7, #5e3bbf) !important;
+}
+
+.icon-users,
+.icon-github {
+  background: linear-gradient(90deg, #1ea7d7, #5e3bbf);
+  border-radius: 50%;
+  padding: 8px;
+}
