@@ -1,11 +1,11 @@
 RewriteEngine On
-RewriteBase /ShopSystemCrazy/
+RewriteBase /Movies-KachCorp/
 
 # 1) Servir assets que están dentro de /public SIN mostrar /public
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{DOCUMENT_ROOT}/ShopSystemCrazy/public/$1 -f [OR]
-RewriteCond %{DOCUMENT_ROOT}/ShopSystemCrazy/public/$1 -d
+RewriteCond %{DOCUMENT_ROOT}/Movies-KachCorp/public/$1 -f [OR]
+RewriteCond %{DOCUMENT_ROOT}/Movies-KachCorp/public/$1 -d
 RewriteRule ^(.+)$ public/$1 [L]
 
 # 2) Raíz del sitio -> front controller (para ?debugbar y /)

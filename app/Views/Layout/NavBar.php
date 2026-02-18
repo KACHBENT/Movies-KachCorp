@@ -26,14 +26,11 @@ $isLoggedIn = (bool) (session()->get('isLoggedIn') ?? false);
 </nav>
 
 <!-- SIDEBAR -->
-<div class="offcanvas offcanvas-start sidebar-tech text-white"
-     tabindex="-1"
-     id="sidebar">
+<div class="offcanvas offcanvas-start sidebar-tech text-white" tabindex="-1" id="sidebar">
 
   <div class="offcanvas-header">
-    <h5>#SHOPSYSTEMCRAZY</h5>
-    <button type="button" class="btn-close btn-close-white"
-      data-bs-dismiss="offcanvas"></button>
+    <h5>Movies KachCorp</h5>
+    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
   </div>
 
   <div class="offcanvas-body d-flex flex-column">

@@ -15,6 +15,44 @@
   --radius: 16px;
 }
 
+.black-filter {
+  filter: brightness(0) saturate(100%);
+}
+
+.white {
+  filter: brightness(0) invert(1);
+}
+
+.filter-red {
+  filter: invert(23%) sepia(91%) saturate(7480%) hue-rotate(347deg) brightness(93%) contrast(126%);
+}
+
+.filter-yellow {
+  filter: invert(79%) sepia(69%) saturate(665%) hue-rotate(359deg) brightness(103%) contrast(105%);
+}
+
+.filter-green {
+  filter: invert(48%) sepia(33%) saturate(7373%) hue-rotate(62deg) brightness(100%) contrast(126%);
+}
+
+.black-filter {
+  filter: brightness(0) saturate(100%);
+}
+
+.btn:hover img.filter-green {
+  filter: invert(100%) sepia(33%) saturate(7373%) hue-rotate(177deg) brightness(100%) contrast(126%);
+}
+
+.btn:hover img.filter-red {
+  filter: invert(100%) sepia(33%) saturate(7373%) hue-rotate(177deg) brightness(100%) contrast(126%);
+}
+
+.btn:hover img.filter-yellow {
+  filter: invert(100%) sepia(33%) saturate(7373%) hue-rotate(177deg) brightness(100%) contrast(126%);
+}
+
+
+
 /* ========================= BASE ========================= */
 
 html, body {
