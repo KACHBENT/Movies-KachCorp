@@ -73,7 +73,7 @@ class Home extends BaseController
             ],
         ];
 
-        return view('Inicio/inicio', [
+        return view('inicio/inicio', [
             'recomendaciones' => $recomendaciones,
             'peliculasNetflix' => $peliculasNetflix,
         ]);

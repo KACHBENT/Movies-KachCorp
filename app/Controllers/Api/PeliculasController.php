@@ -18,13 +18,10 @@ class PeliculasController extends BaseController
                 p.pelicula_TrailerUrl,
                 p.pelicula_Creacion,
                 p.pelicula_Activo,
-
                 g.generoId,
                 g.genero_Valor,
-
                 c.clasificacionId,
                 c.clasificacion_Valor,
-
                 img.imageId,
                 img.image_Url
             ")
@@ -35,7 +32,6 @@ class PeliculasController extends BaseController
             ->orderBy('p.peliculaId', 'DESC')
             ->get()->getResultArray();
 
-        // Normalizar URL de imagen
         foreach ($rows as &$r) {
             $r['image_Url'] = !empty($r['image_Url']) ? base_url($r['image_Url']) : null;
         }
@@ -59,13 +55,10 @@ class PeliculasController extends BaseController
                 p.pelicula_TrailerUrl,
                 p.pelicula_Creacion,
                 p.pelicula_Activo,
-
                 g.generoId,
                 g.genero_Valor,
-
                 c.clasificacionId,
                 c.clasificacion_Valor,
-
                 img.imageId,
                 img.image_Url
             ")
@@ -73,13 +66,13 @@ class PeliculasController extends BaseController
             ->join('tbl_cat_clasificacion c', 'c.clasificacionId = p.clasificacionId', 'inner')
             ->join('tbl_ope_image img', 'img.imageId = p.imageId AND img.image_Activo = 1', 'left')
             ->where('p.peliculaId', $id)
-            ->get()->getRowArray();
+            ->get(1)->getRowArray();
 
         if (!$row) {
-            return $this->response->setJSON([
+            return $this->response->setStatusCode(404)->setJSON([
                 'ok' => false,
                 'message' => 'Película no encontrada.'
-            ])->setStatusCode(404);
+            ]);
         }
 
         $row['image_Url'] = !empty($row['image_Url']) ? base_url($row['image_Url']) : null;

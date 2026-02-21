@@ -44,10 +44,10 @@ $routes->group('peliculas', ['filter' => 'auth'], static function ($routes) {
 });
 
 
-$routes->group('api', static function($routes) {
+$routes->group('api', ['namespace' => 'App\Controllers\Api'], static function($routes) {
     $routes->post('auth/login', 'AuthController::login');
-    $routes->get('peliculas', 'PeliculasController::index');        
-    $routes->get('peliculas/(:num)', 'PeliculasController::show/$1'); 
+    $routes->get('peliculas', 'PeliculasController::index');
+    $routes->get('peliculas/(:num)', 'PeliculasController::show/$1');
 });
 
 
