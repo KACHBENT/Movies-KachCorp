@@ -1,1 +1,0 @@
-__ci_last_regenerate|i:1770690807;_ci_previous_url|s:45:"http://localhost/ShopSystemCrazy/acceso/login";_ci_old_input|a:2:{s:3:"get";a:0:{}s:4:"post";a:3:{s:7:"usuario";s:5:"Julio";s:8:"password";s:7:"1622004";s:8:"honeypot";s:0:"";}}__ci_vars|a:2:{s:13:"_ci_old_input";s:3:"old";s:11:"toast_error";s:3:"old";}toast_error|s:34:"Usuario o contraseña incorrectos.";

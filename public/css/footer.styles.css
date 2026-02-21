@@ -1,64 +1,122 @@
-.footer {
+.footer{
   flex-shrink: 0;
-  background: linear-gradient(135deg, #1ea7d7, #5e3bbf);
-  color: #ffffff;
-  font-family: 'Segoe UI', sans-serif;
   position: relative;
-  z-index: 2;
-  box-shadow: 0 -6px 20px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  color: #fff;
+  font-family: "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+
+  /* Fondo más oscuro y elegante */
+  background:
+    radial-gradient(1200px 500px at 20% 0%, rgba(0,198,255,.28), transparent 60%),
+    radial-gradient(900px 450px at 90% 30%, rgba(168,85,247,.25), transparent 60%),
+    linear-gradient(135deg, #0b1226, #1a0f33);
+  box-shadow: 0 -10px 28px rgba(0,0,0,.40);
+  border-top: 1px solid rgba(255,255,255,.10);
 }
 
-.footer-brand {
-  font-weight: 800;
-  font-size: 1.4rem;
-  background: linear-gradient(90deg, #00c6ff, #a855f7);
+/* Overlay oscuro para que TODO sea legible */
+.footer::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background: linear-gradient(180deg, rgba(0,0,0,.20), rgba(0,0,0,.55));
+  pointer-events:none;
+}
+
+/* Contenedor “glass” */
+.footer-inner{
+  position: relative;
+  z-index: 1;
+  background: rgba(15, 18, 40, .55);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 22px;
+  padding: 28px 26px;
+}
+
+/* Marca */
+.footer-brand{
+  font-weight: 900;
+  font-size: 1.55rem;
+  letter-spacing: .5px;
+  margin: 0 0 .8rem 0;
+  /* Se ve más nítido que texto transparente */
+  background: linear-gradient(90deg, #7ee7ff, #d6a7ff);
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 8px 22px rgba(0,0,0,.35);
 }
 
-.footer-title {
-  font-weight: 600;
-  margin-bottom: 1rem;
-  color: #e0e0ff;
+.footer-title{
+  font-weight: 700;
+  margin-bottom: .9rem;
+  color: rgba(255,255,255,.92);
 }
 
-.footer-text {
-  font-size: 0.9rem;
-  opacity: 0.85;
-  line-height: 1.6;
+.footer-text{
+  font-size: .95rem;
+  color: rgba(255,255,255,.82);
+  line-height: 1.65;
+  margin: 0;
 }
 
-.footer-links li {
-  margin-bottom: 0.5rem;
-  font-size: 0.9rem;
-  opacity: 0.85;
+.footer-links{
+  margin: 0;
+  padding: 0;
 }
 
-.footer-link {
-  display: block;
-  color: #dcdcff;
+.footer-links li{
+  display: flex;
+  gap: .55rem;
+  align-items: center;
+  margin-bottom: .6rem;
+  font-size: .93rem;
+  color: rgba(255,255,255,.82);
+}
+
+.footer-links i{
+  opacity: .95;
+}
+
+/* Links */
+.footer-link{
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+  color: rgba(255,255,255,.82);
   text-decoration: none;
-  margin-bottom: 0.5rem;
-  font-size: 0.9rem;
-  transition: all 0.3s ease;
+  margin-bottom: .55rem;
+  font-size: .93rem;
+  transition: all .2s ease;
 }
 
-.footer-link:hover {
+.footer-link:hover{
   color: #ffffff;
-  transform: translateX(5px);
+  transform: translateX(4px);
+  text-decoration: underline;
+  text-underline-offset: 4px;
 }
 
-.footer-divider {
+.footer-divider{
   border: none;
   height: 1px;
-  background: linear-gradient(to right, transparent, rgba(255,255,255,0.4), transparent);
-  margin: 2rem 0;
+  background: linear-gradient(to right, transparent, rgba(255,255,255,.25), transparent);
+  margin: 1.6rem 0 1.2rem;
 }
 
-.footer-bottom {
+.footer-bottom{
   display: flex;
   justify-content: space-between;
+  gap: .8rem;
   flex-wrap: wrap;
-  font-size: 0.8rem;
-  opacity: 0.8;
+  font-size: .85rem;
+  color: rgba(255,255,255,.72);
+}
+
+/* Responsive: un poquito menos padding en móvil */
+@media (max-width: 576px){
+  .footer-inner{ padding: 22px 18px; }
+  .footer-brand{ font-size: 1.35rem; }
 }
