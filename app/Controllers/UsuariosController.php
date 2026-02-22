@@ -6,13 +6,23 @@ use App\Models\PersonaModel;
 use App\Models\ContactoModel;
 use App\Models\UsuarioModel;
 use App\Models\RolModel;
-use App\Models\RolesDetalleModel;
 use App\Models\ImageModel;
 use App\Libraries\Mailer;
 use CodeIgniter\HTTP\RedirectResponse;
 
 class UsuariosController extends BaseController
 {
+    // ====== AJUSTA SI TU BD CAMBIA NOMBRES ======
+    private const TBL_USUARIO = 'tbl_rel_usuario';
+    private const TBL_PERSONA = 'tbl_ope_persona';
+    private const TBL_CONTACTO = 'tbl_rel_contacto';
+    private const TBL_ROL = 'tbl_cat_roles';
+    private const TBL_ROLDET = 'tbl_ope_rolesdetalle';
+    private const TBL_IMAGE = 'tbl_ope_image';
+
+    private const CONTACTO_EMAIL_ID = 1; // tipocontactoId para email
+
+    // ====== HELPERS ======
     private function normalizeUser(string $text): string
     {
         $text = mb_strtolower(trim($text), 'UTF-8');
@@ -27,7 +37,7 @@ class UsuariosController extends BaseController
         $username = $base;
         $i = 1;
 
-        while ($db->table('tbl_rel_usuario')->where('usuario_nombre', $username)->countAllResults() > 0) {
+        while ($db->table(self::TBL_USUARIO)->where('usuario_nombre', $username)->countAllResults() > 0) {
             $username = $base . $i;
             $i++;
         }
@@ -37,16 +47,94 @@ class UsuariosController extends BaseController
 
     private function generateTempPassword(int $length = 10): string
     {
-
         $alphabet = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789';
         $bytes = random_bytes($length);
         $pass = '';
-        for ($i=0; $i<$length; $i++) {
+        for ($i = 0; $i < $length; $i++) {
             $pass .= $alphabet[ord($bytes[$i]) % strlen($alphabet)];
         }
         return $pass;
     }
 
+    private function assertActiveRole(int $rolesId, \CodeIgniter\Database\BaseConnection $db): void
+    {
+        $rol = $db->table(self::TBL_ROL)
+            ->where('rolesId', $rolesId)
+            ->where('roles_Activo', 1)
+            ->get()->getRowArray();
+
+        if (!$rol) {
+            throw new \RuntimeException('Rol inválido o inactivo.');
+        }
+    }
+
+    /**
+     * FIX ROL:
+     * - Apaga roles activos del usuario
+     * - Si existe el mismo rol -> lo activa
+     * - Si existe un registro del usuario pero tu tabla es "1 rol por usuario" (unique usuarioId) -> actualiza ese registro
+     * - Si no existe -> inserta
+     */
+    private function setUserRole(int $usuarioId, int $rolesId, \CodeIgniter\Database\BaseConnection $db): void
+    {
+        // 1) Apagar roles activos
+        $db->table(self::TBL_ROLDET)
+            ->where('usuarioId', $usuarioId)
+            ->update(['rolesDetalle_Activo' => 0]);
+
+        // 2) ¿Ya existe ese rol para el usuario? re-activarlo
+        $same = $db->table(self::TBL_ROLDET)
+            ->select('rolesDetalleId')
+            ->where('usuarioId', $usuarioId)
+            ->where('rolesId', $rolesId)
+            ->get()->getRowArray();
+
+        if ($same) {
+            $ok = $db->table(self::TBL_ROLDET)
+                ->where('rolesDetalleId', (int)$same['rolesDetalleId'])
+                ->update(['rolesDetalle_Activo' => 1]);
+
+            if (!$ok) {
+                throw new \RuntimeException('No se pudo activar el rol existente. DBError=' . json_encode($db->error()));
+            }
+            return;
+        }
+
+        // 3) Si tu tabla solo permite 1 registro por usuario (unique usuarioId),
+        // actualiza el último registro del usuario a ese rol.
+        $any = $db->table(self::TBL_ROLDET)
+            ->select('rolesDetalleId')
+            ->where('usuarioId', $usuarioId)
+            ->orderBy('rolesDetalleId', 'DESC')
+            ->get(1)->getRowArray();
+
+        if ($any) {
+            $ok = $db->table(self::TBL_ROLDET)
+                ->where('rolesDetalleId', (int)$any['rolesDetalleId'])
+                ->update([
+                    'rolesId' => $rolesId,
+                    'rolesDetalle_Activo' => 1
+                ]);
+
+            if (!$ok) {
+                throw new \RuntimeException('No se pudo actualizar el rol del usuario. DBError=' . json_encode($db->error()));
+            }
+            return;
+        }
+
+        // 4) Insert normal (si no existe nada)
+        $okInsert = $db->table(self::TBL_ROLDET)->insert([
+            'usuarioId' => $usuarioId,
+            'rolesId' => $rolesId,
+            'rolesDetalle_Activo' => 1,
+        ]);
+
+        if (!$okInsert) {
+            throw new \RuntimeException('No se pudo asignar el rol. DBError=' . json_encode($db->error()));
+        }
+    }
+
+    // ====== VISTAS ======
     public function create(): string
     {
         $rolModel = new RolModel();
@@ -56,6 +144,48 @@ class UsuariosController extends BaseController
         ]);
     }
 
+    // ====== INDEX (LISTADO) ======
+    public function index(): string
+    {
+        $db = \Config\Database::connect();
+
+        $estado = (string)($this->request->getGet('estado') ?? 'all'); // '1','0','all'
+        $estado = in_array($estado, ['1', '0', 'all'], true) ? $estado : 'all';
+
+        $builder = $db->table(self::TBL_USUARIO . ' u')
+            ->select("
+                u.usuarioId, u.usuario_nombre, u.usuario_Activo, u.personaId, u.imageId,
+                p.persona_Nombre, p.persona_ApllP, p.persona_ApllM, p.persona_FechaNacimiento,
+                c.contacto_Valor AS correo,
+                r.rolesId, r.roles_Valor,
+                img.image_Url
+            ")
+            ->join(self::TBL_PERSONA . ' p', 'p.personaId = u.personaId', 'inner')
+            ->join(self::TBL_CONTACTO . ' c', 'c.personaId = p.personaId AND c.tipocontactoId = ' . self::CONTACTO_EMAIL_ID . ' AND c.contacto_Activo = 1', 'left')
+            ->join(self::TBL_ROLDET . ' rd', 'rd.usuarioId = u.usuarioId AND rd.rolesDetalle_Activo = 1', 'left')
+            ->join(self::TBL_ROL . ' r', 'r.rolesId = rd.rolesId AND r.roles_Activo = 1', 'left')
+            ->join(self::TBL_IMAGE . ' img', 'img.imageId = u.imageId AND img.image_Activo = 1', 'left')
+            ->orderBy('u.usuarioId', 'DESC');
+
+        if ($estado !== 'all') {
+            $builder->where('u.usuario_Activo', (int)$estado);
+        }
+
+        $usuarios = $builder->get()->getResultArray();
+
+        $roles = $db->table(self::TBL_ROL)
+            ->where('roles_Activo', 1)
+            ->orderBy('roles_Valor', 'ASC')
+            ->get()->getResultArray();
+
+        return view('usuarios/index', [
+            'usuarios' => $usuarios,
+            'roles'    => $roles,
+            'estado'   => $estado,
+        ]);
+    }
+
+    // ====== STORE (REGISTRO) ======
     public function store(): RedirectResponse
     {
         if (!$this->request->is('post')) {
@@ -67,8 +197,7 @@ class UsuariosController extends BaseController
             'persona_ApllP'           => 'required|min_length[2]|max_length[50]',
             'persona_ApllM'           => 'permit_empty|max_length[50]',
             'persona_FechaNacimiento' => 'required|valid_date[Y-m-d]',
-
-            'correo'                  => 'required|valid_email|max_length[50]',
+            'correo'                  => 'required|valid_email|max_length[80]',
             'rolesId'                 => 'required|is_natural_no_zero',
         ];
 
@@ -76,14 +205,34 @@ class UsuariosController extends BaseController
             return redirect()->back()->withInput()->with('toast_error', array_values($this->validator->getErrors()));
         }
 
-        $nombre = trim((string)$this->request->getPost('persona_Nombre'));
-        $ap     = trim((string)$this->request->getPost('persona_ApllP'));
-        $am     = trim((string)$this->request->getPost('persona_ApllM'));
-        $fnac   = (string)$this->request->getPost('persona_FechaNacimiento');
-
-        $correo = strtolower(trim((string)$this->request->getPost('correo')));
+        $nombre  = trim((string)$this->request->getPost('persona_Nombre'));
+        $ap      = trim((string)$this->request->getPost('persona_ApllP'));
+        $am      = trim((string)$this->request->getPost('persona_ApllM'));
+        $fnac    = (string)$this->request->getPost('persona_FechaNacimiento');
+        $correo  = strtolower(trim((string)$this->request->getPost('correo')));
         $rolesId = (int)$this->request->getPost('rolesId');
 
+        $db = \Config\Database::connect();
+
+        // correo duplicado
+        $correoExistente = $db->table(self::TBL_CONTACTO)
+            ->where('tipocontactoId', self::CONTACTO_EMAIL_ID)
+            ->where('contacto_Valor', $correo)
+            ->where('contacto_Activo', 1)
+            ->get()->getRowArray();
+
+        if ($correoExistente) {
+            return redirect()->back()->withInput()->with('toast_error', 'Ese correo ya está registrado.');
+        }
+
+        // rol válido
+        try {
+            $this->assertActiveRole($rolesId, $db);
+        } catch (\Throwable $e) {
+            return redirect()->back()->withInput()->with('toast_error', $e->getMessage());
+        }
+
+        // imagen
         $file = $this->request->getFile('foto');
         $hasImage = $file && $file->isValid() && !$file->hasMoved() && $file->getSize() > 0;
 
@@ -105,40 +254,21 @@ class UsuariosController extends BaseController
             }
         }
 
-        $db = \Config\Database::connect();
-
-        $correoExistente = $db->table('tbl_rel_contacto')
-            ->where('tipocontactoId', 1)
-            ->where('contacto_Valor', $correo)
-            ->where('contacto_Activo', 1)
-            ->get()->getRowArray();
-
-        if ($correoExistente) {
-            return redirect()->back()->withInput()->with('toast_error', 'Ese correo ya está registrado.');
-        }
-
-        $rolModel = new RolModel();
-        $rol = $rolModel->find($rolesId);
-        if (!$rol || (int)($rol['roles_Activo'] ?? 0) !== 1) {
-            return redirect()->back()->withInput()->with('toast_error', 'Rol inválido.');
-        }
-
         $usuarioGenerado = $this->generateUsername($nombre, $ap, $db);
         $passTemp        = $this->generateTempPassword(10);
         $passHash        = password_hash($passTemp, PASSWORD_DEFAULT);
 
-        $personaModel      = new PersonaModel();
-        $contactoModel     = new ContactoModel();
-        $usuarioModel      = new UsuarioModel();
-        $rolesDetalleModel = new RolesDetalleModel();
-        $imageModel        = new ImageModel();
+        $personaModel  = new PersonaModel();
+        $contactoModel = new ContactoModel();
+        $usuarioModel  = new UsuarioModel();
+        $imageModel    = new ImageModel();
 
         $movedFullPath = null;
 
         $db->transBegin();
 
         try {
-
+            // Persona
             $personaId = $personaModel->insert([
                 'persona_Nombre'          => $nombre,
                 'persona_ApllP'           => $ap,
@@ -147,18 +277,23 @@ class UsuariosController extends BaseController
                 'persona_Activo'          => 1,
             ], true);
 
-            if (!$personaId) throw new \RuntimeException('No se pudo crear la persona.');
-
-            // Contacto correo
-            if (!$contactoModel->insert([
-                'personaId'       => (int)$personaId,
-                'tipocontactoId'  => 1,
-                'contacto_Valor'  => $correo,
-                'contacto_Activo' => 1,
-            ])) {
-                throw new \RuntimeException('No se pudo registrar el correo.');
+            if (!$personaId) {
+                throw new \RuntimeException('No se pudo crear la persona: ' . json_encode($personaModel->errors()));
             }
 
+            // Contacto email
+            $okContacto = $contactoModel->insert([
+                'personaId'       => (int)$personaId,
+                'tipocontactoId'  => self::CONTACTO_EMAIL_ID,
+                'contacto_Valor'  => $correo,
+                'contacto_Activo' => 1,
+            ]);
+
+            if (!$okContacto) {
+                throw new \RuntimeException('No se pudo registrar el correo: ' . json_encode($contactoModel->errors()));
+            }
+
+            // Imagen
             $imageId = null;
 
             if ($hasImage) {
@@ -178,7 +313,11 @@ class UsuariosController extends BaseController
 
                 $hash = hash_file('sha256', $movedFullPath);
 
-                $existing = $db->table('tbl_ope_image')->select('imageId')->where('image_Hash', $hash)->get()->getRowArray();
+                $existing = $db->table(self::TBL_IMAGE)
+                    ->select('imageId')
+                    ->where('image_Hash', $hash)
+                    ->get()->getRowArray();
+
                 if ($existing) {
                     $imageId = (int)$existing['imageId'];
                 } else {
@@ -191,11 +330,13 @@ class UsuariosController extends BaseController
                         'image_Activo'    => 1,
                     ], true);
 
-                    if (!$imageId) throw new \RuntimeException('No se pudo guardar la imagen en BD.');
+                    if (!$imageId) {
+                        throw new \RuntimeException('No se pudo guardar la imagen: ' . json_encode($imageModel->errors()));
+                    }
                 }
             }
 
- 
+            // Usuario
             $usuarioId = $usuarioModel->insert([
                 'usuario_nombre'     => $usuarioGenerado,
                 'personaId'          => (int)$personaId,
@@ -204,14 +345,12 @@ class UsuariosController extends BaseController
                 'usuario_Activo'     => 1,
             ], true);
 
-            if (!$usuarioId) throw new \RuntimeException('No se pudo crear el usuario.');
-            if (!$rolesDetalleModel->insert([
-                'usuarioId'           => (int)$usuarioId,
-                'rolesId'             => (int)$rolesId,
-                'rolesDetalle_Activo' => 1,
-            ])) {
-                throw new \RuntimeException('No se pudo asignar el rol.');
+            if (!$usuarioId) {
+                throw new \RuntimeException('No se pudo crear el usuario: ' . json_encode($usuarioModel->errors()));
             }
+
+       
+            $this->setUserRole((int)$usuarioId, (int)$rolesId, $db);
 
             $db->transCommit();
 
@@ -222,14 +361,18 @@ class UsuariosController extends BaseController
             return redirect()->back()->withInput()->with('toast_error', 'Error al registrar: ' . $e->getMessage());
         }
 
-        $mailer = new Mailer();
-
+        // Email (no afecta rol)
+        $mailer  = new Mailer();
         $loginUrl = site_url('acceso/login');
+
         $html = "
           <h2>Bienvenido(a)</h2>
           <p>Tu cuenta fue creada correctamente.</p>
-          <p><b>Usuario:</b> {$correo}<br>
-             <b>Contraseña temporal:</b> {$passTemp}</p>
+          <p>
+            <b>Usuario:</b> {$usuarioGenerado}<br>
+            <b>Correo:</b> {$correo}<br>
+            <b>Contraseña:</b> {$passTemp}
+          </p>
           <p>Inicia sesión aquí: <a href='{$loginUrl}'>{$loginUrl}</a></p>
           <p style='font-size:12px;color:#666'>Por seguridad, cambia tu contraseña después de ingresar.</p>
         ";
@@ -245,62 +388,18 @@ class UsuariosController extends BaseController
             ->with('toast_success', 'Usuario creado y credenciales enviadas al correo.');
     }
 
- public function index(): string
-    {
-        $db = \Config\Database::connect();
-
-        $estado = (string)($this->request->getGet('estado') ?? 'all'); // '1','0','all'
-        $estado = in_array($estado, ['1','0','all'], true) ? $estado : 'all';
-
-        $builder = $db->table('tbl_rel_usuario u')
-            ->select("
-                u.usuarioId, u.usuario_nombre, u.usuario_Activo, u.personaId, u.imageId,
-                p.persona_Nombre, p.persona_ApllP, p.persona_ApllM, p.persona_FechaNacimiento,
-                c.contacto_Valor AS correo,
-                r.rolesId, r.roles_Valor,
-                img.image_Url
-            ")
-            ->join('tbl_ope_persona p', 'p.personaId = u.personaId', 'inner')
-            ->join('tbl_rel_contacto c', 'c.personaId = p.personaId AND c.tipocontactoId = 1 AND c.contacto_Activo = 1', 'left')
-            // solo el rol ACTIVO
-            ->join('tbl_ope_rolesdetalle rd', 'rd.usuarioId = u.usuarioId AND rd.rolesDetalle_Activo = 1', 'left')
-            ->join('tbl_cat_roles r', 'r.rolesId = rd.rolesId AND r.roles_Activo = 1', 'left')
-            ->join('tbl_ope_image img', 'img.imageId = u.imageId AND img.image_Activo = 1', 'left')
-            ->orderBy('u.usuarioId', 'DESC');
-
-        if ($estado !== 'all') {
-            $builder->where('u.usuario_Activo', (int)$estado);
-        }
-
-        $usuarios = $builder->get()->getResultArray();
-
-        $roles = $db->table('tbl_cat_roles')
-            ->where('roles_Activo', 1)
-            ->orderBy('roles_Valor', 'ASC')
-            ->get()->getResultArray();
-
-        return view('usuarios/index', [
-            'usuarios' => $usuarios,
-            'roles'    => $roles,
-            'estado'   => $estado,
-        ]);
-    }
-
+    // ====== DESACTIVAR ======
     public function deactivate(int $usuarioId): RedirectResponse
     {
         $db = \Config\Database::connect();
 
-        $u = $db->table('tbl_rel_usuario')->where('usuarioId', $usuarioId)->get()->getRowArray();
+        $u = $db->table(self::TBL_USUARIO)->where('usuarioId', $usuarioId)->get()->getRowArray();
         if (!$u) return redirect()->to(site_url('usuarios?estado=all'))->with('toast_error', 'Usuario no encontrado.');
 
         $db->transBegin();
         try {
-            $db->table('tbl_rel_usuario')->where('usuarioId', $usuarioId)->update(['usuario_Activo' => 0]);
-
-            // desactiva roles activos
-            $db->table('tbl_ope_rolesdetalle')
-                ->where('usuarioId', $usuarioId)
-                ->update(['rolesDetalle_Activo' => 0]);
+            $db->table(self::TBL_USUARIO)->where('usuarioId', $usuarioId)->update(['usuario_Activo' => 0]);
+            $db->table(self::TBL_ROLDET)->where('usuarioId', $usuarioId)->update(['rolesDetalle_Activo' => 0]);
 
             $db->transCommit();
             return redirect()->to(site_url('usuarios?estado=all'))->with('toast_success', 'Usuario desactivado.');
@@ -310,31 +409,28 @@ class UsuariosController extends BaseController
         }
     }
 
+    // ====== ACTIVAR ======
     public function activate(int $usuarioId): RedirectResponse
     {
         $db = \Config\Database::connect();
 
-        $u = $db->table('tbl_rel_usuario')->where('usuarioId', $usuarioId)->get()->getRowArray();
+        $u = $db->table(self::TBL_USUARIO)->where('usuarioId', $usuarioId)->get()->getRowArray();
         if (!$u) return redirect()->to(site_url('usuarios?estado=all'))->with('toast_error', 'Usuario no encontrado.');
 
         $db->transBegin();
         try {
-            $db->table('tbl_rel_usuario')->where('usuarioId', $usuarioId)->update(['usuario_Activo' => 1]);
+            $db->table(self::TBL_USUARIO)->where('usuarioId', $usuarioId)->update(['usuario_Activo' => 1]);
 
-            $last = $db->table('tbl_ope_rolesdetalle')
+            // activa el último rol (si hay)
+            $last = $db->table(self::TBL_ROLDET)
                 ->select('rolesDetalleId')
                 ->where('usuarioId', $usuarioId)
                 ->orderBy('rolesDetalleId', 'DESC')
                 ->get(1)->getRowArray();
 
             if ($last) {
-                $db->table('tbl_ope_rolesdetalle')
-                    ->where('usuarioId', $usuarioId)
-                    ->update(['rolesDetalle_Activo' => 0]);
-
-                $db->table('tbl_ope_rolesdetalle')
-                    ->where('rolesDetalleId', (int)$last['rolesDetalleId'])
-                    ->update(['rolesDetalle_Activo' => 1]);
+                $db->table(self::TBL_ROLDET)->where('usuarioId', $usuarioId)->update(['rolesDetalle_Activo' => 0]);
+                $db->table(self::TBL_ROLDET)->where('rolesDetalleId', (int)$last['rolesDetalleId'])->update(['rolesDetalle_Activo' => 1]);
             }
 
             $db->transCommit();
@@ -345,6 +441,7 @@ class UsuariosController extends BaseController
         }
     }
 
+    // ====== UPDATE (EDITAR) ======
     public function update(int $usuarioId): RedirectResponse
     {
         if (!$this->request->is('post')) {
@@ -356,7 +453,7 @@ class UsuariosController extends BaseController
             'persona_ApllP'           => 'required|min_length[2]|max_length[50]',
             'persona_ApllM'           => 'permit_empty|max_length[50]',
             'persona_FechaNacimiento' => 'required|valid_date[Y-m-d]',
-            'correo'                  => 'required|valid_email|max_length[50]',
+            'correo'                  => 'required|valid_email|max_length[80]',
             'rolesId'                 => 'required|is_natural_no_zero',
         ];
 
@@ -365,21 +462,23 @@ class UsuariosController extends BaseController
                 ->with('toast_error', array_values($this->validator->getErrors()));
         }
 
-        $nombre = trim((string)$this->request->getPost('persona_Nombre'));
-        $ap     = trim((string)$this->request->getPost('persona_ApllP'));
-        $am     = trim((string)$this->request->getPost('persona_ApllM'));
-        $fnac   = (string)$this->request->getPost('persona_FechaNacimiento');
-        $correo = strtolower(trim((string)$this->request->getPost('correo')));
+        $nombre  = trim((string)$this->request->getPost('persona_Nombre'));
+        $ap      = trim((string)$this->request->getPost('persona_ApllP'));
+        $am      = trim((string)$this->request->getPost('persona_ApllM'));
+        $fnac    = (string)$this->request->getPost('persona_FechaNacimiento');
+        $correo  = strtolower(trim((string)$this->request->getPost('correo')));
         $rolesId = (int)$this->request->getPost('rolesId');
 
         $db = \Config\Database::connect();
 
-        $u = $db->table('tbl_rel_usuario')->where('usuarioId', $usuarioId)->get()->getRowArray();
+        $u = $db->table(self::TBL_USUARIO)->where('usuarioId', $usuarioId)->get()->getRowArray();
         if (!$u) return redirect()->to(site_url('usuarios?estado=all'))->with('toast_error', 'Usuario no encontrado.');
+
         $personaId = (int)$u['personaId'];
 
-        $correoDup = $db->table('tbl_rel_contacto')
-            ->where('tipocontactoId', 1)
+        // correo duplicado (otra persona)
+        $correoDup = $db->table(self::TBL_CONTACTO)
+            ->where('tipocontactoId', self::CONTACTO_EMAIL_ID)
             ->where('contacto_Valor', $correo)
             ->where('contacto_Activo', 1)
             ->where('personaId !=', $personaId)
@@ -390,12 +489,14 @@ class UsuariosController extends BaseController
                 ->with('toast_error', 'Ese correo ya está registrado en otra persona.');
         }
 
-        $rolModel = new RolModel();
-        $rol = $rolModel->find($rolesId);
-        if (!$rol || (int)($rol['roles_Activo'] ?? 0) !== 1) {
-            return redirect()->to(site_url('usuarios?estado=all'))->with('toast_error', 'Rol inválido.');
+        // rol válido
+        try {
+            $this->assertActiveRole($rolesId, $db);
+        } catch (\Throwable $e) {
+            return redirect()->to(site_url('usuarios?estado=all'))->with('toast_error', $e->getMessage());
         }
 
+        // imagen
         $file = $this->request->getFile('foto');
         $hasImage = $file && $file->isValid() && !$file->hasMoved() && $file->getSize() > 0;
 
@@ -417,29 +518,31 @@ class UsuariosController extends BaseController
             }
         }
 
-        $personaModel = new PersonaModel();
+        $personaModel  = new PersonaModel();
         $contactoModel = new ContactoModel();
-        $usuarioModel = new UsuarioModel();
-        $rolesDetalleModel = new RolesDetalleModel();
-        $imageModel = new ImageModel();
+        $usuarioModel  = new UsuarioModel();
+        $imageModel    = new ImageModel();
 
         $db->transBegin();
         $movedFullPath = null;
 
         try {
-            if (!$personaModel->update($personaId, [
+            // persona
+            $okPersona = $personaModel->update($personaId, [
                 'persona_Nombre'          => $nombre,
                 'persona_ApllP'           => $ap,
                 'persona_ApllM'           => $am !== '' ? $am : null,
                 'persona_FechaNacimiento' => $fnac,
-            ])) {
-                throw new \RuntimeException('No se pudo actualizar la persona.');
+            ]);
+
+            if (!$okPersona) {
+                throw new \RuntimeException('No se pudo actualizar la persona: ' . json_encode($personaModel->errors()));
             }
 
-
-            $contacto = $db->table('tbl_rel_contacto')
+            // correo contacto
+            $contacto = $db->table(self::TBL_CONTACTO)
                 ->where('personaId', $personaId)
-                ->where('tipocontactoId', 1)
+                ->where('tipocontactoId', self::CONTACTO_EMAIL_ID)
                 ->where('contacto_Activo', 1)
                 ->get()->getRowArray();
 
@@ -448,14 +551,17 @@ class UsuariosController extends BaseController
             } else {
                 $okCorreo = $contactoModel->insert([
                     'personaId'       => $personaId,
-                    'tipocontactoId'  => 1,
+                    'tipocontactoId'  => self::CONTACTO_EMAIL_ID,
                     'contacto_Valor'  => $correo,
                     'contacto_Activo' => 1,
                 ]);
             }
 
-            if (!$okCorreo) throw new \RuntimeException('No se pudo actualizar el correo.');
+            if (!$okCorreo) {
+                throw new \RuntimeException('No se pudo actualizar el correo: ' . json_encode($contactoModel->errors()));
+            }
 
+            // imagen (opcional)
             $imageId = $u['imageId'] ?? null;
 
             if ($hasImage) {
@@ -472,9 +578,14 @@ class UsuariosController extends BaseController
 
                 $movedFullPath = $dir . DIRECTORY_SEPARATOR . $newName;
                 $relativeUrl   = 'uploads/usuarios/' . $newName;
+
                 $hash = hash_file('sha256', $movedFullPath);
 
-                $existing = $db->table('tbl_ope_image')->select('imageId')->where('image_Hash', $hash)->get()->getRowArray();
+                $existing = $db->table(self::TBL_IMAGE)
+                    ->select('imageId')
+                    ->where('image_Hash', $hash)
+                    ->get()->getRowArray();
+
                 if ($existing) {
                     $imageId = (int)$existing['imageId'];
                 } else {
@@ -487,45 +598,29 @@ class UsuariosController extends BaseController
                         'image_Activo'    => 1,
                     ], true);
 
-                    if (!$imageId) throw new \RuntimeException('No se pudo guardar la imagen en BD.');
+                    if (!$imageId) {
+                        throw new \RuntimeException('No se pudo guardar la imagen: ' . json_encode($imageModel->errors()));
+                    }
                 }
 
-                if (!$usuarioModel->update($usuarioId, ['imageId' => $imageId])) {
-                    throw new \RuntimeException('No se pudo asociar la imagen al usuario.');
-                }
-            }
-
-            $db->table('tbl_ope_rolesdetalle')
-                ->where('usuarioId', $usuarioId)
-                ->update(['rolesDetalle_Activo' => 0]);
-
-            $rd = $db->table('tbl_ope_rolesdetalle')
-                ->select('rolesDetalleId')
-                ->where('usuarioId', $usuarioId)
-                ->where('rolesId', $rolesId)
-                ->get()->getRowArray();
-
-            if ($rd) {
-                $db->table('tbl_ope_rolesdetalle')
-                    ->where('rolesDetalleId', (int)$rd['rolesDetalleId'])
-                    ->update(['rolesDetalle_Activo' => 1]);
-            } else {
-                // si no existe -> insert
-                if (!$rolesDetalleModel->insert([
-                    'usuarioId'           => $usuarioId,
-                    'rolesId'             => $rolesId,
-                    'rolesDetalle_Activo' => 1,
-                ])) {
-                    throw new \RuntimeException('No se pudo asignar el rol.');
+                $okUserImg = $usuarioModel->update($usuarioId, ['imageId' => $imageId]);
+                if (!$okUserImg) {
+                    throw new \RuntimeException('No se pudo asociar la imagen al usuario: ' . json_encode($usuarioModel->errors()));
                 }
             }
+
+         
+            $this->setUserRole((int)$usuarioId, (int)$rolesId, $db);
 
             $db->transCommit();
             return redirect()->to(site_url('usuarios?estado=all'))->with('toast_success', 'Usuario actualizado.');
+
         } catch (\Throwable $e) {
             $db->transRollback();
             if ($movedFullPath && is_file($movedFullPath)) @unlink($movedFullPath);
-            return redirect()->to(site_url('usuarios?estado=all'))->with('toast_error', 'Error al actualizar: ' . $e->getMessage());
+
+            return redirect()->to(site_url('usuarios?estado=all'))
+                ->with('toast_error', 'Error al actualizar: ' . $e->getMessage());
         }
     }
 }
