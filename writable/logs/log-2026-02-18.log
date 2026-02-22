@@ -27,3 +27,166 @@ DEBUG - 2026-02-18 00:44:27 --> Session: Class initialized using 'CodeIgniter\Se
 DEBUG - 2026-02-18 00:44:37 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
 DEBUG - 2026-02-18 00:44:44 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
 DEBUG - 2026-02-18 00:45:06 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-02-18 01:22:04 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-02-18 01:22:14 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-02-18 01:22:44 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-02-18 23:28:41 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-02-18 23:28:42 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2026-02-18 23:28:48 --> mysqli_sql_exception: Unknown column 'correo' in 'where clause' in C:\xampp\htdocs\Movies-KachCorp\vendor\codeigniter4\framework\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\xampp\htdocs\Movies-KachCorp\vendor\codeigniter4\framework\system\Database\MySQLi\Connection.php(327): mysqli->query('SELECT `usr`.`u...', 0)
+#1 C:\xampp\htdocs\Movies-KachCorp\vendor\codeigniter4\framework\system\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `usr`.`u...')
+#2 C:\xampp\htdocs\Movies-KachCorp\vendor\codeigniter4\framework\system\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `usr`.`u...')
+#3 C:\xampp\htdocs\Movies-KachCorp\vendor\codeigniter4\framework\system\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT `usr`.`u...', Array, false)
+#4 C:\xampp\htdocs\Movies-KachCorp\app\Controllers\AccesoController.php(74): CodeIgniter\Database\BaseBuilder->get()
+#5 C:\xampp\htdocs\Movies-KachCorp\vendor\codeigniter4\framework\system\CodeIgniter.php(933): App\Controllers\AccesoController->login()
+#6 C:\xampp\htdocs\Movies-KachCorp\vendor\codeigniter4\framework\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AccesoController))
+#7 C:\xampp\htdocs\Movies-KachCorp\vendor\codeigniter4\framework\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\xampp\htdocs\Movies-KachCorp\vendor\codeigniter4\framework\system\Boot.php(334): CodeIgniter\CodeIgniter->run()
+#9 C:\xampp\htdocs\Movies-KachCorp\vendor\codeigniter4\framework\system\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#10 C:\xampp\htdocs\Movies-KachCorp\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#11 {main}
+CRITICAL - 2026-02-18 23:28:49 --> CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'correo' in 'where clause'
+[Method: POST, Route: acceso/login]
+in SYSTEMPATH\Database\BaseConnection.php on line 692.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT `usr`.`usuarioId`, `usr`.`usuario_nombre`, `usr`.`personaId`, `usr`.`imageId`, `usr`.`usuario_Contrasena`, `usr`.`usuario_Activo`, `per`.`persona_Nombre`, `per`.`persona_ApllP`, `per`.`persona_ApllM`, `cont`.`contacto_Valor` AS `correo`, `tip`.`tipocontacto_Valor` AS `tipo_contacto`
+FROM `tbl_rel_usuario` `usr`
+INNER JOIN `tbl_ope_persona` `per` ON `per`.`personaId` = `usr`.`personaId`
+INNER JOIN `tbl_rel_contacto` `cont` ON `cont`.`personaId` = `per`.`personaId`
+INNER JOIN `tbl_cat_tipocontacto` `tip` ON `tip`.`tipocontactoId` = `cont`.`tipocontactoId`
+WHERE `cont`.`contacto_Valor` = :cont.contacto_Valor:
+AND `cont`.`contacto_Activo` = :cont.contacto_Activo:
+AND `tip`.`tipocontacto_Activo` = :tip.tipocontacto_Activo:
+AND   (
+LOWER(tip.tipocontacto_Valor) = :LOWER(tip.tipocontacto_Valor):
+OR LOWER(tip.tipocontacto_Valor) = :LOWER(tip.tipocontacto_Valor).1:
+OR LOWER(tip.tipocontacto_Valor) = :LOWER(tip.tipocontacto_Valor).2:
+ )
+AND `usr`.`usuario_Activo` = :usr.usuario_Activo:', [...], false)
+ 2 APPPATH\Controllers\AccesoController.php(74): CodeIgniter\Database\BaseBuilder->get()
+ 3 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\AccesoController->login()
+ 4 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AccesoController))
+ 5 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 6 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 8 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-02-18 23:28:49 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'correo' in 'where clause'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 332.
+ 1 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `usr`.`usuarioId`, `usr`.`usuario_nombre`, `usr`.`personaId`, `usr`.`imageId`, `usr`.`usuario_Contrasena`, `usr`.`usuario_Activo`, `per`.`persona_Nombre`, `per`.`persona_ApllP`, `per`.`persona_ApllM`, `cont`.`contacto_Valor` AS `correo`, `tip`.`tipocontacto_Valor` AS `tipo_contacto`
+FROM `tbl_rel_usuario` `usr`
+INNER JOIN `tbl_ope_persona` `per` ON `per`.`personaId` = `usr`.`personaId`
+INNER JOIN `tbl_rel_contacto` `cont` ON `cont`.`personaId` = `per`.`personaId`
+INNER JOIN `tbl_cat_tipocontacto` `tip` ON `tip`.`tipocontactoId` = `cont`.`tipocontactoId`
+WHERE `cont`.`contacto_Valor` = \'tg8189041@gmail.com\'
+AND `cont`.`contacto_Activo` = 1
+AND `tip`.`tipocontacto_Activo` = 1
+AND   (
+LOWER(tip.tipocontacto_Valor) = correo
+OR LOWER(tip.tipocontacto_Valor) = email
+OR LOWER(tip.tipocontacto_Valor) = e-mail
+ )
+AND `usr`.`usuario_Activo` = 1')
+ 2 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `usr`.`usuarioId`, `usr`.`usuario_nombre`, `usr`.`personaId`, `usr`.`imageId`, `usr`.`usuario_Contrasena`, `usr`.`usuario_Activo`, `per`.`persona_Nombre`, `per`.`persona_ApllP`, `per`.`persona_ApllM`, `cont`.`contacto_Valor` AS `correo`, `tip`.`tipocontacto_Valor` AS `tipo_contacto`
+FROM `tbl_rel_usuario` `usr`
+INNER JOIN `tbl_ope_persona` `per` ON `per`.`personaId` = `usr`.`personaId`
+INNER JOIN `tbl_rel_contacto` `cont` ON `cont`.`personaId` = `per`.`personaId`
+INNER JOIN `tbl_cat_tipocontacto` `tip` ON `tip`.`tipocontactoId` = `cont`.`tipocontactoId`
+WHERE `cont`.`contacto_Valor` = \'tg8189041@gmail.com\'
+AND `cont`.`contacto_Activo` = 1
+AND `tip`.`tipocontacto_Activo` = 1
+AND   (
+LOWER(tip.tipocontacto_Valor) = correo
+OR LOWER(tip.tipocontacto_Valor) = email
+OR LOWER(tip.tipocontacto_Valor) = e-mail
+ )
+AND `usr`.`usuario_Activo` = 1')
+ 3 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT `usr`.`usuarioId`, `usr`.`usuario_nombre`, `usr`.`personaId`, `usr`.`imageId`, `usr`.`usuario_Contrasena`, `usr`.`usuario_Activo`, `per`.`persona_Nombre`, `per`.`persona_ApllP`, `per`.`persona_ApllM`, `cont`.`contacto_Valor` AS `correo`, `tip`.`tipocontacto_Valor` AS `tipo_contacto`
+FROM `tbl_rel_usuario` `usr`
+INNER JOIN `tbl_ope_persona` `per` ON `per`.`personaId` = `usr`.`personaId`
+INNER JOIN `tbl_rel_contacto` `cont` ON `cont`.`personaId` = `per`.`personaId`
+INNER JOIN `tbl_cat_tipocontacto` `tip` ON `tip`.`tipocontactoId` = `cont`.`tipocontactoId`
+WHERE `cont`.`contacto_Valor` = :cont.contacto_Valor:
+AND `cont`.`contacto_Activo` = :cont.contacto_Activo:
+AND `tip`.`tipocontacto_Activo` = :tip.tipocontacto_Activo:
+AND   (
+LOWER(tip.tipocontacto_Valor) = :LOWER(tip.tipocontacto_Valor):
+OR LOWER(tip.tipocontacto_Valor) = :LOWER(tip.tipocontacto_Valor).1:
+OR LOWER(tip.tipocontacto_Valor) = :LOWER(tip.tipocontacto_Valor).2:
+ )
+AND `usr`.`usuario_Activo` = :usr.usuario_Activo:', [...], false)
+ 4 APPPATH\Controllers\AccesoController.php(74): CodeIgniter\Database\BaseBuilder->get()
+ 5 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\AccesoController->login()
+ 6 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AccesoController))
+ 7 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+10 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-02-18 23:28:49 --> [Caused by] mysqli_sql_exception: Unknown column 'correo' in 'where clause'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 327.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(327): mysqli->query('SELECT `usr`.`usuarioId`, `usr`.`usuario_nombre`, `usr`.`personaId`, `usr`.`imageId`, `usr`.`usuario_Contrasena`, `usr`.`usuario_Activo`, `per`.`persona_Nombre`, `per`.`persona_ApllP`, `per`.`persona_ApllM`, `cont`.`contacto_Valor` AS `correo`, `tip`.`tipocontacto_Valor` AS `tipo_contacto`
+FROM `tbl_rel_usuario` `usr`
+INNER JOIN `tbl_ope_persona` `per` ON `per`.`personaId` = `usr`.`personaId`
+INNER JOIN `tbl_rel_contacto` `cont` ON `cont`.`personaId` = `per`.`personaId`
+INNER JOIN `tbl_cat_tipocontacto` `tip` ON `tip`.`tipocontactoId` = `cont`.`tipocontactoId`
+WHERE `cont`.`contacto_Valor` = \'tg8189041@gmail.com\'
+AND `cont`.`contacto_Activo` = 1
+AND `tip`.`tipocontacto_Activo` = 1
+AND   (
+LOWER(tip.tipocontacto_Valor) = correo
+OR LOWER(tip.tipocontacto_Valor) = email
+OR LOWER(tip.tipocontacto_Valor) = e-mail
+ )
+AND `usr`.`usuario_Activo` = 1', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `usr`.`usuarioId`, `usr`.`usuario_nombre`, `usr`.`personaId`, `usr`.`imageId`, `usr`.`usuario_Contrasena`, `usr`.`usuario_Activo`, `per`.`persona_Nombre`, `per`.`persona_ApllP`, `per`.`persona_ApllM`, `cont`.`contacto_Valor` AS `correo`, `tip`.`tipocontacto_Valor` AS `tipo_contacto`
+FROM `tbl_rel_usuario` `usr`
+INNER JOIN `tbl_ope_persona` `per` ON `per`.`personaId` = `usr`.`personaId`
+INNER JOIN `tbl_rel_contacto` `cont` ON `cont`.`personaId` = `per`.`personaId`
+INNER JOIN `tbl_cat_tipocontacto` `tip` ON `tip`.`tipocontactoId` = `cont`.`tipocontactoId`
+WHERE `cont`.`contacto_Valor` = \'tg8189041@gmail.com\'
+AND `cont`.`contacto_Activo` = 1
+AND `tip`.`tipocontacto_Activo` = 1
+AND   (
+LOWER(tip.tipocontacto_Valor) = correo
+OR LOWER(tip.tipocontacto_Valor) = email
+OR LOWER(tip.tipocontacto_Valor) = e-mail
+ )
+AND `usr`.`usuario_Activo` = 1')
+ 3 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `usr`.`usuarioId`, `usr`.`usuario_nombre`, `usr`.`personaId`, `usr`.`imageId`, `usr`.`usuario_Contrasena`, `usr`.`usuario_Activo`, `per`.`persona_Nombre`, `per`.`persona_ApllP`, `per`.`persona_ApllM`, `cont`.`contacto_Valor` AS `correo`, `tip`.`tipocontacto_Valor` AS `tipo_contacto`
+FROM `tbl_rel_usuario` `usr`
+INNER JOIN `tbl_ope_persona` `per` ON `per`.`personaId` = `usr`.`personaId`
+INNER JOIN `tbl_rel_contacto` `cont` ON `cont`.`personaId` = `per`.`personaId`
+INNER JOIN `tbl_cat_tipocontacto` `tip` ON `tip`.`tipocontactoId` = `cont`.`tipocontactoId`
+WHERE `cont`.`contacto_Valor` = \'tg8189041@gmail.com\'
+AND `cont`.`contacto_Activo` = 1
+AND `tip`.`tipocontacto_Activo` = 1
+AND   (
+LOWER(tip.tipocontacto_Valor) = correo
+OR LOWER(tip.tipocontacto_Valor) = email
+OR LOWER(tip.tipocontacto_Valor) = e-mail
+ )
+AND `usr`.`usuario_Activo` = 1')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT `usr`.`usuarioId`, `usr`.`usuario_nombre`, `usr`.`personaId`, `usr`.`imageId`, `usr`.`usuario_Contrasena`, `usr`.`usuario_Activo`, `per`.`persona_Nombre`, `per`.`persona_ApllP`, `per`.`persona_ApllM`, `cont`.`contacto_Valor` AS `correo`, `tip`.`tipocontacto_Valor` AS `tipo_contacto`
+FROM `tbl_rel_usuario` `usr`
+INNER JOIN `tbl_ope_persona` `per` ON `per`.`personaId` = `usr`.`personaId`
+INNER JOIN `tbl_rel_contacto` `cont` ON `cont`.`personaId` = `per`.`personaId`
+INNER JOIN `tbl_cat_tipocontacto` `tip` ON `tip`.`tipocontactoId` = `cont`.`tipocontactoId`
+WHERE `cont`.`contacto_Valor` = :cont.contacto_Valor:
+AND `cont`.`contacto_Activo` = :cont.contacto_Activo:
+AND `tip`.`tipocontacto_Activo` = :tip.tipocontacto_Activo:
+AND   (
+LOWER(tip.tipocontacto_Valor) = :LOWER(tip.tipocontacto_Valor):
+OR LOWER(tip.tipocontacto_Valor) = :LOWER(tip.tipocontacto_Valor).1:
+OR LOWER(tip.tipocontacto_Valor) = :LOWER(tip.tipocontacto_Valor).2:
+ )
+AND `usr`.`usuario_Activo` = :usr.usuario_Activo:', [...], false)
+ 5 APPPATH\Controllers\AccesoController.php(74): CodeIgniter\Database\BaseBuilder->get()
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\AccesoController->login()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AccesoController))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2026-02-18 23:33:49 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-02-18 23:33:49 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-02-18 23:33:56 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-02-18 23:33:56 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.

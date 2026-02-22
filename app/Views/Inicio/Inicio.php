@@ -3,11 +3,223 @@
 <?= $this->section('css') ?>
 <link rel="stylesheet" href="<?= base_url('css/inicio.styles.css') ?>">
 <style>
-  /* mini estilo para el fallback */
-  .pg-fallback{
-    border: 1px solid rgba(0,0,0,.08);
+  /* ====== NETFLIX ROW ====== */
+  .nf-wrap {
+    color: #fff;
+  }
+
+  .nf-head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-top: 28px;
+  }
+
+  .nf-title {
+    font-size: 2.2rem;
+    font-weight: 900;
+    line-height: 1;
+    margin: 0;
+  }
+
+  .nf-sub {
+    opacity: .85;
+    margin: .35rem 0 0 0;
+  }
+
+  .nf-hint {
+    opacity: .85;
+  }
+
+  .nf-row {
+    display: flex;
+    gap: 14px;
+    overflow-x: auto;
+    padding: 14px 2px 6px;
+    scroll-snap-type: x mandatory;
+  }
+
+  .nf-row::-webkit-scrollbar {
+    height: 10px;
+  }
+
+  .nf-row::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, .18);
+    border-radius: 999px;
+  }
+
+  .nf-card {
+    width: 180px;
+    min-width: 180px;
+    height: 265px;
+    border-radius: 18px;
+    border: 1px solid rgba(255, 255, 255, .12);
+    background: rgba(255, 255, 255, .06);
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    scroll-snap-align: start;
+    transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+    text-align: left;
+  }
+
+  .nf-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 18px 35px rgba(0, 0, 0, .35);
+    border-color: rgba(255, 255, 255, .28);
+  }
+
+  .nf-poster {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .nf-grad {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg,
+        rgba(0, 0, 0, .06) 0%,
+        rgba(0, 0, 0, .35) 55%,
+        rgba(0, 0, 0, .78) 100%);
+    pointer-events: none;
+  }
+
+  .nf-meta {
+    position: absolute;
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .nf-name {
+    font-weight: 800;
+    font-size: .95rem;
+    line-height: 1.2;
+    color: white;
+  }
+
+  .nf-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    opacity: .92;
+    font-size: .8rem;
+    color: white;
+  }
+
+  .nf-pill {
+    padding: 3px 8px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, .12);
+    border: 1px solid rgba(255, 255, 255, .14);
+    color: white;
+  }
+
+  .nf-play {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 40px;
+    height: 40px;
+    border-radius: 999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, .55);
+    border: 1px solid rgba(255, 255, 255, .18);
+    backdrop-filter: blur(8px);
+  }
+
+  .nf-play i {
+    color: #fff;
+    font-size: 1.2rem;
+  }
+
+  .nf-empty {
+    margin-top: 16px;
+    padding: 14px 16px;
     border-radius: 16px;
-    background: #fff;
+    background: rgba(255, 255, 255, .06);
+    border: 1px solid rgba(255, 255, 255, .12);
+    color: rgba(255, 255, 255, .85);
+  }
+
+  /* ====== MODAL ====== */
+  .modal-content {
+    border-radius: 18px;
+    overflow: hidden;
+  }
+
+  .m-head {
+    background: rgba(10, 10, 18, .96);
+    color: #fff;
+    border-bottom: 1px solid rgba(255, 255, 255, .10);
+  }
+
+  .m-body {
+    background: rgba(10, 10, 18, .96);
+    color: #fff;
+  }
+
+  .m-grid {
+    display: grid;
+    grid-template-columns: 340px 1fr;
+    gap: 16px;
+  }
+
+  @media (max-width: 992px) {
+    .m-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .m-poster {
+    width: 100%;
+    aspect-ratio: 2/3;
+    border-radius: 16px;
+    object-fit: cover;
+    border: 1px solid rgba(255, 255, 255, .14);
+    background: rgba(255, 255, 255, .06);
+  }
+
+  .m-info h3 {
+    margin: 0;
+    font-weight: 900;
+  }
+
+  .m-desc {
+    opacity: .9;
+    line-height: 1.55;
+    margin-top: 10px;
+  }
+
+  .m-line {
+    opacity: .85;
+    margin-top: 10px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .m-chip {
+    padding: 6px 10px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, .10);
+    border: 1px solid rgba(255, 255, 255, .12);
+    font-weight: 700;
+    font-size: .85rem;
+  }
+
+  /* fallback block */
+  .pg-fallback {
+    border: 1px solid rgba(255, 255, 255, .14);
+    border-radius: 16px;
+    background: rgba(255, 255, 255, .06);
   }
 </style>
 <?= $this->endSection() ?>
@@ -18,37 +230,35 @@
 
 <?= $this->section('content') ?>
 
-<div class="container my-4">
+<div class="container my-4 nf-wrap">
 
-  <!-- Carrusel banners -->
+  <!-- ===== Carrusel (SIN descripción, solo botón de video) ===== -->
   <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="6500">
     <div class="carousel-indicators">
       <?php foreach (($recomendaciones ?? []) as $i => $item): ?>
-        <button type="button"
-                data-bs-target="#heroCarousel"
-                data-bs-slide-to="<?= $i ?>"
-                class="<?= $i === 0 ? 'active' : '' ?>"
-                aria-current="<?= $i === 0 ? 'true' : 'false' ?>"
-                aria-label="Slide <?= $i + 1 ?>"></button>
+        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="<?= $i ?>"
+          class="<?= $i === 0 ? 'active' : '' ?>" aria-current="<?= $i === 0 ? 'true' : 'false' ?>"
+          aria-label="Slide <?= $i + 1 ?>"></button>
       <?php endforeach; ?>
     </div>
 
     <div class="carousel-inner">
       <?php foreach (($recomendaciones ?? []) as $i => $item): ?>
         <div class="carousel-item <?= $i === 0 ? 'active' : '' ?>">
-          <img src="<?= esc($item['imagen']) ?>" class="d-block w-100" style="height:600px;object-fit:cover" alt="<?= esc($item['titulo']) ?>">
+          <img src="<?= esc($item['imagen']) ?>" class="d-block w-100" style="height:600px;object-fit:cover"
+            alt="<?= esc($item['titulo']) ?>">
 
           <div class="carousel-caption text-start">
             <span class="badge bg-dark bg-opacity-75"><?= esc($item['tag'] ?? 'Recomendado') ?></span>
             <h2 class="mt-2"><?= esc($item['titulo']) ?></h2>
-            <p class="d-none d-md-block"><?= esc($item['descripcion']) ?></p>
 
-            <button class="btn btn-light fw-semibold"
-                    type="button"
-                    data-bs-toggle="modal"
-                    data-bs-target="#videoModal"
-                    data-video="<?= esc($item['video']) ?>">
-            Ver video
+            <!-- SOLO VIDEO (el detalle se ve en el modal) -->
+            <button class="btn btn-light fw-semibold js-open-movie" type="button" data-bs-toggle="modal"
+              data-bs-target="#movieModal" data-title="<?= esc($item['titulo']) ?>"
+              data-desc="<?= esc($item['descripcion'] ?? '') ?>" data-img="<?= esc($item['imagen']) ?>"
+              data-video="<?= esc($item['video'] ?? '') ?>" data-genre="<?= esc($item['genero'] ?? '') ?>"
+              data-rating="<?= esc($item['clasificacion'] ?? '') ?>" data-date="<?= esc($item['creacion'] ?? '') ?>">
+              <i class="bi bi-play-circle me-1"></i> Ver video
             </button>
           </div>
         </div>
@@ -64,169 +274,120 @@
       <span class="visually-hidden">Siguiente</span>
     </button>
   </div>
-  <section class="container my-5">
 
-  <!-- Misión y Visión -->
-  <div class="row g-4">
-    <div class="col-12 col-lg-6">
-      <div class="card card-info shadow-sm border-0 h-100" style="border-radius:18px;">
-        <div class="card-body p-4">
-          <div class=" align-items-center gap-2 mb-2">
-            <h5 class="text-center">Misión</h5>
-          </div>
-          <p class="mb-0" style="line-height:1.7;">
-            Brindar soluciones tecnológicas confiables, seguras y escalables que impulsen el crecimiento de nuestros clientes,
-            optimizando sus procesos mediante desarrollo de software, integración de sistemas y soporte especializado,
-            con enfoque en calidad, innovación y resultados medibles.
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-12 col-lg-6">
-      <div class="card card-info shadow-sm border-0 h-100" style="border-radius:18px;">
-        <div class="card-body p-4">
-          <div class=" align-items-center gap-2 mb-2">
-            <h5 class="text-center">Visión</h5>
-          </div>
-          <p class="mb-0" style="line-height:1.7;">
-            Ser una consultoría líder en transformación digital, reconocida por crear productos de software modernos y eficientes,
-            por la excelencia técnica de nuestro equipo y por generar valor sostenido para organizaciones que buscan evolucionar y competir
-            en un entorno tecnológico en constante cambio.
-          </p>
-        </div>
-      </div>
+  <div class="nf-head">
+    <div>
+      <h3 class="nf-title"><img src="<?= base_url('images/icons/movie.svg') ?>" class="white mb-2" alt="peliculas" width="30"
+            height="30"> Películas</h3>
+      <p class="nf-sub">Haz click en una película para ver el detalle </p>
     </div>
   </div>
 
-  <!-- Equipo -->
-  <div class="d-flex align-items-center justify-content-between mt-5 mb-3">
-    <h3 class="m-0 fw-bold">Nuestro equipo</h3>
-  </div>
+  <?php if (empty($peliculasNetflix)): ?>
+    <div class="nf-empty">No hay películas activas para mostrar.</div>
+  <?php else: ?>
+    <div class="nf-row">
+      <?php foreach ($peliculasNetflix as $p): ?>
+        <?php
+        $title = $p['titulo'] ?? '';
+        $desc = $p['descripcion'] ?? '';
+        $img = $p['imagen'] ?? '';
+        // si viene "uploads/..." lo convertimos a URL pública
+        $imgUrl = $img ? base_url($img) : '';
+        $video = $p['video'] ?? '';
+        $genre = $p['genero'] ?? '';
+        $rating = $p['clasificacion'] ?? '';
+        $date = $p['creacion'] ?? '';
+        ?>
 
-  <div class="row g-4">
+        <button type="button" class="nf-card js-open-movie" data-bs-toggle="modal" data-bs-target="#movieModal"
+          data-title="<?= esc($title) ?>" data-desc="<?= esc($desc) ?>" data-img="<?= esc($imgUrl) ?>"
+          data-video="<?= esc($video) ?>" data-genre="<?= esc($genre) ?>" data-rating="<?= esc($rating) ?>"
+          data-date="<?= esc($date) ?>">
 
-    <!-- Integrante 1 -->
-    <div class="col-12 col-md-4">
-      <div class="card card-info shadow-sm border-0 h-100" style="border-radius:18px;">
-        <div class="card-body p-4 text-center">
-          <img src="<?= base_url('images/team/tetla.jpg') ?>"
-               alt="Integrante 1"
-               class="rounded-circle mb-3"
-               style="width:96px;height:96px;object-fit:cover;border:3px solid rgba(13,110,253,.25);">
-          <h5 class="fw-bold mb-1">Tetlamatzin</h5>
-          <div class=" mb-3">Documentador</div>
+          <?php if ($imgUrl): ?>
+            <img class="nf-poster" src="<?= esc($imgUrl) ?>" alt="<?= esc($title) ?>">
+          <?php else: ?>
+            <div class="d-flex align-items-center justify-content-center h-100" style="opacity:.85;">
+              <div class="text-center">
+                <div style="font-size:2rem"></div>
+                <div class="mt-1">Sin póster</div>
+              </div>
+            </div>
+          <?php endif; ?>
 
-          <div class="d-flex justify-content-center gap-2 flex-wrap">
-            <span class="badge bg-primary-subtle text-primary">PHP</span>
-            <span class="badge bg-primary-subtle text-primary">CodeIgniter</span>
-            <span class="badge bg-primary-subtle text-primary">MySQL</span>
+          <div class="nf-grad"></div>
+
+          <div class="nf-play"><i class="bi bi-play-fill"></i></div>
+
+          <div class="nf-meta">
+            <div class="nf-name"><?= esc($title) ?></div>
+            <div class="nf-tags">
+              <?php if ($genre): ?><span class="nf-pill"><?= esc($genre) ?></span><?php endif; ?>
+              <?php if ($rating): ?><span class="nf-pill"><?= esc($rating) ?></span><?php endif; ?>
+            </div>
           </div>
-
-          <hr class="my-3">
-
-          <p class=" mb-0" style="font-size:.95rem;">
-            Enfocado en arquitectura limpia, APIs y optimización de rendimiento.
-          </p>
-        </div>
-      </div>
+        </button>
+      <?php endforeach; ?>
     </div>
-
-    <!-- Integrante 2 -->
-    <div class="col-12 col-md-4">
-      <div class="card card-info shadow-sm border-0 h-100" style="border-radius:18px;">
-        <div class="card-body p-4 text-center">
-          <img src="<?= base_url('images/team/yo-julio.jpg') ?>"
-               alt="Integrante 2"
-               class="rounded-circle mb-3"
-               style="width:96px;height:96px;object-fit:cover;border:3px solid rgba(209, 42, 30, 0.88);">
-          <h5 class="fw-bold mb-1">Julio Antonio Garcia Peza</h5>
-          <div class=" mb-3">Backend Developer</div>
-
-          <div class="d-flex justify-content-center gap-2 flex-wrap">
-            <span class="badge bg-success-subtle text-success">.NET</span>
-            <span class="badge bg-success-subtle text-success">SQL Server</span>
-            <span class="badge bg-success-subtle text-success">Arquitect System</span>
-          </div>
-
-          <hr class="my-3">
-
-          <p class=" mb-0" style="font-size:.95rem;">
-            Especialista en servicios, seguridad y manejo de datos.
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Integrante 3 -->
-    <div class="col-12 col-md-4">
-      <div class="card card-info shadow-sm border-0 h-100" style="border-radius:18px;">
-        <div class="card-body p-4 text-center">
-          <img src="<?= base_url('images/team/brandon.jpg') ?>"
-               alt="Integrante 3"
-               class="rounded-circle mb-3"
-               style="width:96px;height:96px;object-fit:cover;border:3px solid rgba(255,193,7,.25);">
-          <h5 class="fw-bold mb-1">Brandon Javier Villegas Martínez</h5>
-          <div class=" mb-3">Frontend / UI Developer</div>
-
-          <div class="d-flex justify-content-center gap-2 flex-wrap">
-            <span class="badge bg-warning-subtle text-warning">Bootstrap</span>
-            <span class="badge bg-warning-subtle text-warning">JS</span>
-            <span class="badge bg-warning-subtle text-warning">UX</span>
-          </div>
-
-          <hr class="my-3">
-
-          <p class=" mb-0" style="font-size:.95rem;">
-            Diseño limpio, responsive y experiencia de usuario moderna.
-          </p>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</section>
-
+  <?php endif; ?>
 
 </div>
 
-<!-- Modal video -->
-<div class="modal fade" id="videoModal" tabindex="-1" aria-hidden="true">
+<!-- ===== MODAL DETALLE (imagen + descripción + video) ===== -->
+<div class="modal fade" id="movieModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-xl modal-dialog-centered">
     <div class="modal-content">
-      <div class="modal-header card-header-custom  linea-contenedor">
-        <h5 class="modal-title">Reproducción</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+
+      <div class="modal-header m-head">
+        <h5 class="modal-title fw-bold" id="mTitle">Detalle</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
       </div>
 
-      <div class="modal-body">
+      <div class="modal-body m-body">
 
-        <div class="ratio ratio-16x9 d-none" id="videoFrameWrap">
-          <iframe id="videoFrame"
-                  src=""
-                  title="Video"
-                  allow="autoplay; encrypted-media; picture-in-picture"
-                  allowfullscreen></iframe>
-        </div>
+        <div class="m-grid">
 
-        <div class="ratio ratio-16x9 d-none" id="videoTagWrap">
-          <video id="videoTag" controls playsinline>
-            <source id="videoSource" src="" type="video/mp4">
-            Tu navegador no soporta video MP4.
-          </video>
-        </div>
+          <!-- Left: Poster + info -->
+          <div>
+            <img id="mPoster" class="m-poster" src="" alt="Poster">
+          </div>
 
-        <div id="videoFallback" class="d-none pg-fallback p-4 text-center">
-          <div class="fw-semibold mb-2">MEGA rechazó la reproducción dentro del modal.</div>
-          <div class="text-muted mb-3">No es tu sistema: MEGA bloquea iframes por seguridad. Ábrelo en otra pestaña 👇</div>
+          <div class="m-info">
+            <h3 id="mTitle2"></h3>
 
-          <a id="videoFallbackLink"
-             class="btn btn-primary"
-             href="#"
-             target="_blank"
-             rel="noopener">
-            Abrir en MEGA
-          </a>
+            <div class="m-line">
+              <span class="m-chip" id="mGenre" style="display:none"></span>
+              <span class="m-chip" id="mRating" style="display:none"></span>
+              <span class="m-chip" id="mDate" style="display:none"></span>
+            </div>
+
+            <p class="m-desc" id="mDesc" style="margin-bottom: 14px;"></p>
+
+            <!-- Video area -->
+            <div class="ratio ratio-16x9 d-none" id="videoFrameWrap">
+              <iframe id="videoFrame" src="" title="Video" allow="autoplay; encrypted-media; picture-in-picture"
+                allowfullscreen></iframe>
+            </div>
+
+            <div class="ratio ratio-16x9 d-none" id="videoTagWrap">
+              <video id="videoTag" controls playsinline>
+                <source id="videoSource" src="" type="video/mp4">
+                Tu navegador no soporta video MP4.
+              </video>
+            </div>
+
+            <div id="videoFallback" class="d-none pg-fallback p-4 text-center mt-3">
+              <div class="fw-semibold mb-2">No se pudo reproducir dentro del modal.</div>
+              <div class="text-muted mb-3">Ábrelo en otra pestaña 👇</div>
+
+              <a id="videoFallbackLink" class="btn btn-light fw-semibold" href="#" target="_blank" rel="noopener">
+                Abrir video
+              </a>
+            </div>
+
+          </div>
+
         </div>
 
       </div>
@@ -242,101 +403,198 @@
 
 <?= $this->section('scripts') ?>
 <script>
-(function () {
-  "use strict";
+  (function () {
+    "use strict";
 
-  const modalEl = document.getElementById("videoModal");
+    const modalEl = document.getElementById("movieModal");
 
-  const frameWrap = document.getElementById("videoFrameWrap");
-  const frame = document.getElementById("videoFrame");
+    const mTitle = document.getElementById("mTitle");
+    const mTitle2 = document.getElementById("mTitle2");
+    const mDesc = document.getElementById("mDesc");
+    const mPoster = document.getElementById("mPoster");
 
-  const videoWrap = document.getElementById("videoTagWrap");
-  const video = document.getElementById("videoTag");
-  const source = document.getElementById("videoSource");
+    const mGenre = document.getElementById("mGenre");
+    const mRating = document.getElementById("mRating");
+    const mDate = document.getElementById("mDate");
 
-  const fallback = document.getElementById("videoFallback");
-  const fallbackLink = document.getElementById("videoFallbackLink");
+    const frameWrap = document.getElementById("videoFrameWrap");
+    const frame = document.getElementById("videoFrame");
 
-  function isMp4(url) {
-    return typeof url === "string" && url.toLowerCase().includes(".mp4");
-  }
+    const videoWrap = document.getElementById("videoTagWrap");
+    const video = document.getElementById("videoTag");
+    const source = document.getElementById("videoSource");
 
-  function isMega(url) {
-    return typeof url === "string" && /(^https?:\/\/)?(www\.)?mega\.nz\//i.test(url);
-  }
+    const fallback = document.getElementById("videoFallback");
+    const fallbackLink = document.getElementById("videoFallbackLink");
 
-  function megaToEmbed(url) {
-    try {
-      const u = new URL(url);
-      if (!u.hostname.includes("mega.nz")) return url;
+    function isMp4(url) {
+      return typeof url === "string" && url.toLowerCase().includes(".mp4");
+    }
+    function isMega(url) {
+      return typeof url === "string" && /(^https?:\/\/)?(www\.)?mega\.nz\//i.test(url);
+    }
+    function isDailymotion(url) {
+      return typeof url === "string" && /dailymotion\.com/i.test(url);
+    }
 
-      const parts = u.pathname.split("/").filter(Boolean); 
-      if (parts.length >= 2 && parts[0] === "file") {
-        u.pathname = "/embed/" + parts[1];
+    // Convierte urls de dailymotion a embed estable
+    function dmToEmbed(url) {
+      try {
+        const u = new URL(url);
+
+        // caso: geo.dailymotion.com/player/x7zhh.html?video=ID&mute=true
+        if (u.pathname.includes("/player/") && u.searchParams.get("video")) {
+          const id = u.searchParams.get("video");
+          const mute = u.searchParams.get("mute") === "true" ? "1" : "0";
+          return `https://www.dailymotion.com/embed/video/${id}?autoplay=1&mute=${mute}`;
+        }
+
+        // caso: www.dailymotion.com/video/ID
+        const parts = u.pathname.split("/").filter(Boolean);
+        const idx = parts.indexOf("video");
+        if (idx !== -1 && parts[idx + 1]) {
+          const id = parts[idx + 1];
+          return `https://www.dailymotion.com/embed/video/${id}?autoplay=1&mute=1`;
+        }
+
+        // si ya es embed, lo dejamos
+        return url;
+      } catch {
+        return url;
       }
-      return u.toString();
-    } catch {
-      return url;
-    }
-  }
-
-  function resetUI() {
-
-    if (frame) frame.src = "";
-    if (frameWrap) frameWrap.classList.add("d-none");
-
-
-    if (video) video.pause();
-    if (source) source.src = "";
-    if (video) video.load();
-    if (videoWrap) videoWrap.classList.add("d-none");
-
-
-    if (fallback) fallback.classList.add("d-none");
-    if (fallbackLink) fallbackLink.href = "#";
-  }
-
-  function openVideo(url) {
-    resetUI();
-    if (!url) return;
-
-    if (isMp4(url)) {
-      source.src = url;
-      videoWrap.classList.remove("d-none");
-      video.load();
-      video.play().catch(() => {});
-      return;
     }
 
-    if (isMega(url)) {
-      const embedUrl = megaToEmbed(url);
+    function megaToEmbed(url) {
+      try {
+        const u = new URL(url);
+        if (!u.hostname.includes("mega.nz")) return url;
+        const parts = u.pathname.split("/").filter(Boolean);
+        if (parts.length >= 2 && parts[0] === "file") {
+          u.pathname = "/embed/" + parts[1];
+        }
+        return u.toString();
+      } catch {
+        return url;
+      }
+    }
+
+    function resetVideoUI() {
+      // iframe
+      if (frame) frame.src = "";
+      if (frameWrap) frameWrap.classList.add("d-none");
+
+      // video tag
+      if (video) video.pause();
+      if (source) source.src = "";
+      if (video) video.load();
+      if (videoWrap) videoWrap.classList.add("d-none");
+
+      // fallback
+      if (fallback) fallback.classList.add("d-none");
+      if (fallbackLink) fallbackLink.href = "#";
+    }
+
+    function openVideo(url) {
+      resetVideoUI();
+      if (!url) return;
+
+      // mp4 directo
+      if (isMp4(url)) {
+        source.src = url;
+        videoWrap.classList.remove("d-none");
+        video.load();
+        video.play().catch(() => { });
+        return;
+      }
+
+      // mega
+      if (isMega(url)) {
+        const embedUrl = megaToEmbed(url);
+        fallbackLink.href = url;
+
+        frameWrap.classList.remove("d-none");
+        frame.src = embedUrl;
+
+        const t = setTimeout(() => {
+          frameWrap.classList.add("d-none");
+          fallback.classList.remove("d-none");
+        }, 2200);
+
+        frame.onload = () => clearTimeout(t);
+        return;
+      }
+
+      // dailymotion
+      if (isDailymotion(url)) {
+        const embed = dmToEmbed(url);
+        fallbackLink.href = url;
+
+        frameWrap.classList.remove("d-none");
+        frame.src = embed;
+
+        const t = setTimeout(() => {
+          // si el navegador bloquea el iframe por CSP/headers, damos fallback
+          fallback.classList.remove("d-none");
+        }, 1800);
+
+        frame.onload = () => clearTimeout(t);
+        return;
+      }
+
+      // cualquier otro iframe
       fallbackLink.href = url;
-
       frameWrap.classList.remove("d-none");
-      frame.src = embedUrl;
-
-      const t = setTimeout(() => {
-        frameWrap.classList.add("d-none");
-        fallback.classList.remove("d-none");
-      }, 2200);
-
-      frame.onload = () => clearTimeout(t);
-      return;
+      frame.src = url;
     }
 
-    frameWrap.classList.remove("d-none");
-    frame.src = url;
-  }
+    function setChip(el, val) {
+      if (!el) return;
+      if (val && String(val).trim() !== "") {
+        el.textContent = val;
+        el.style.display = "inline-flex";
+      } else {
+        el.textContent = "";
+        el.style.display = "none";
+      }
+    }
 
-  if (modalEl) {
-    modalEl.addEventListener("show.bs.modal", (ev) => {
-      const btn = ev.relatedTarget;
-      const url = btn ? btn.getAttribute("data-video") : "";
-      openVideo(url);
-    });
+    if (modalEl) {
+      modalEl.addEventListener("show.bs.modal", (ev) => {
+        const btn = ev.relatedTarget;
+        if (!btn) return;
 
-    modalEl.addEventListener("hidden.bs.modal", resetUI);
-  }
-})();
+        const data = btn.dataset || {};
+
+        const title = data.title || "Detalle";
+        const desc = data.desc || "";
+        const img = data.img || "";
+        const videoUrl = data.video || "";
+
+        mTitle.textContent = title;
+        mTitle2.textContent = title;
+        mDesc.textContent = desc;
+
+        mPoster.src = img || "";
+        mPoster.style.display = img ? "block" : "none";
+
+        setChip(mGenre, data.genre || "");
+        setChip(mRating, data.rating || "");
+        setChip(mDate, data.date || "");
+
+        openVideo(videoUrl);
+      });
+
+      modalEl.addEventListener("hidden.bs.modal", () => {
+        resetVideoUI();
+        mPoster.src = "";
+        mDesc.textContent = "";
+        mTitle.textContent = "Detalle";
+        mTitle2.textContent = "";
+        setChip(mGenre, "");
+        setChip(mRating, "");
+        setChip(mDate, "");
+      });
+    }
+  })();
 </script>
 <?= $this->endSection() ?>

@@ -33,7 +33,7 @@
                 </span>
                 <div class="form-floating flex-grow-1">
                   <input type="text" class="form-control" id="usuario" name="usuario"
-                    placeholder="Ingresa el Usuario o correo" value="<?= old('usuario') ?>" required />
+                    value="<?= old('usuario') ?>" required />
                   <label for="usuario">Correo</label>
                 </div>
               </div>
